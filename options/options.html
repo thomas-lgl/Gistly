@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gistly settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <svg class="logo" viewBox="0 0 64 64" width="44" height="44" aria-hidden="true">
+        <rect x="2.56" y="2.56" width="58.88" height="58.88" rx="14.4" fill="#14213d"/>
+        <path d="M15.6 11.5H38.7L46.7 19.5V49a2.2 2.2 0 0 1-2.2 2.2H15.6a2.2 2.2 0 0 1-2.2-2.2V13.7a2.2 2.2 0 0 1 2.2-2.2Z" fill="#fff"/>
+        <path d="M38.7 11.5L46.7 19.5H38.7Z" fill="#d6d8e2"/>
+        <rect x="17.8" y="25.6" width="19.2" height="3.6" rx="1.8" fill="#ffd60a"/>
+        <rect x="18.75" y="20.25" width="20.6" height="2.8" rx="1.4" fill="#14213d"/>
+        <rect x="18.75" y="26" width="16.6" height="2.8" rx="1.4" fill="#14213d"/>
+        <rect x="18.75" y="31.75" width="11.3" height="2.8" rx="1.4" fill="#14213d"/>
+      </svg>
+      <div>
+        <h1>Gistly settings</h1>
+        <p class="lede">Changes save as you make them.</p>
+      </div>
+      <span class="saved" id="saved" role="status" aria-live="polite"></span>
+    </header>
+
+    <section class="card" id="detection">
+      <h2>Finding agreements</h2>
+      <div class="row">
+        <label class="row-text" for="autoDetect">
+          <span class="row-title">Detect automatically</span>
+          <span class="row-sub">Look for terms, privacy policies and cookie banners as pages load, and show the Summarize button.</span>
+        </label>
+        <span class="switch"><input type="checkbox" id="autoDetect" /><span class="track"></span></span>
+      </div>
+      <div class="row">
+        <label class="row-text" for="autoSummarize">
+          <span class="row-title">Summarize without asking</span>
+          <span class="row-sub">Open the summary as soon as something is found. With AI summaries on, this sends the agreement text to your endpoint without a click.</span>
+        </label>
+        <span class="switch"><input type="checkbox" id="autoSummarize" /><span class="track"></span></span>
+      </div>
+    </section>
+
+    <section class="card" id="summaries">
+      <h2>How summaries look</h2>
+      <div class="row">
+        <label class="row-text" for="summaryLength">
+          <span class="row-title">Length</span>
+          <span class="row-sub">How many points to aim for.</span>
+        </label>
+        <select id="summaryLength">
+          <option value="short">Short (3 points)</option>
+          <option value="standard">Standard (5 points)</option>
+          <option value="detailed">Detailed (6 points)</option>
+        </select>
+      </div>
+      <div class="row">
+        <label class="row-text" for="theme">
+          <span class="row-title">Appearance</span>
+          <span class="row-sub">Applies to the popup, this page and the on-page summary.</span>
+        </label>
+        <select id="theme">
+          <option value="auto">Match my system</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="card" id="ai">
+      <h2>AI summaries <span class="optional">optional</span></h2>
+      <p class="body">
+        Out of the box Gistly summarizes on your device and nothing leaves your computer.
+        AI summaries read more naturally and cope with unusual wording, but they need a small
+        proxy that you run yourself, because an API key can’t be hidden inside a browser
+        extension. The README and installation guide walk through it, and it takes about ten minutes.
+      </p>
+
+      <details class="steps">
+        <summary>The four steps</summary>
+        <ol>
+          <li>Get an Anthropic API key at <strong>console.anthropic.com</strong>.</li>
+          <li>Create a free Cloudflare Worker and paste in <strong>proxy/cloudflare-worker.js</strong> from this project.</li>
+          <li>Add your API key to the Worker as a secret named <strong>ANTHROPIC_API_KEY</strong>, then copy the Worker’s address.</li>
+          <li>Paste that address below, press <strong>Save endpoint</strong>, allow access, then <strong>Test connection</strong>.</li>
+        </ol>
+      </details>
+
+      <div class="field">
+        <label for="apiEndpoint">Your proxy address</label>
+        <input type="url" id="apiEndpoint" placeholder="https://gistly-proxy.your-name.workers.dev" autocomplete="off" spellcheck="false" />
+        <div class="buttons">
+          <button class="btn btn-primary" id="saveEndpointBtn" type="button">Save endpoint</button>
+          <button class="btn btn-outline" id="testBtn" type="button" disabled>Test connection</button>
+        </div>
+        <p class="status" id="endpointStatus" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="row row-last">
+        <label class="row-text" for="aiEnabled">
+          <span class="row-title">Use AI summaries</span>
+          <span class="row-sub" id="aiSub"></span>
+        </label>
+        <span class="switch"><input type="checkbox" id="aiEnabled" disabled /><span class="track"></span></span>
+      </div>
+      <p class="fineprint">
+        When this is on, only the agreement text Gistly detected (at most 12,000 characters) is sent
+        to your proxy, never the rest of the page, and it is not stored by Gistly. If the AI is
+        unreachable, Gistly tells you and falls back to the on-device summary.
+      </p>
+    </section>
+
+    <section class="card" id="privacy">
+      <h2>Privacy</h2>
+      <p class="body">
+        Gistly keeps no history of the pages you visit or the summaries it writes. The only thing
+        it stores is the settings on this page, on this computer. Nothing is synced or sent anywhere
+        unless you turn on AI summaries.
+      </p>
+      <div class="buttons">
+        <button class="btn btn-danger" id="resetBtn" type="button">Reset all settings</button>
+      </div>
+    </section>
+
+    <footer class="foot">Gistly never clicks Accept or Reject for you. It only reads and explains.</footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

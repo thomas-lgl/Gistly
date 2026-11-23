@@ -1,0 +1,250 @@
+/*
+ * Gistly on-page UI (floating button + summary card).
+ *
+ * This stylesheet is loaded ONLY into Gistly's own closed Shadow DOM (see
+ * content.js). It is deliberately not listed in manifest.json, so it can
+ * never leak into the websites you visit, and it needs no
+ * web_accessible_resources entry (which would let sites detect the
+ * extension).
+ *
+ * Visual idea: Gistly pulls the one thing that matters out of a dense
+ * document, so the identity is ink-on-paper with a single highlighter-yellow
+ * accent, used for the brand mark and the bullet markers and nowhere else.
+ */
+
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- Tokens (set on the shadow host) ------------------------------------- */
+:host {
+  --g-ink: #14213d;
+  --g-paper: #ffffff;
+  --g-sunk: #f3f3f0;
+  --g-line: #e4e3dc;
+  --g-muted: #66665e;
+  --g-highlight: #ffd60a;
+  --g-warn-bg: #fdf1e4;
+  --g-warn-line: #efc58c;
+  --g-warn-text: #7d430b;
+  --g-danger: #b3261e;
+  --g-shadow: 0 18px 42px -14px rgba(20, 33, 61, 0.32), 0 2px 8px rgba(20, 33, 61, 0.12);
+}
+
+:host([data-gistly-theme="dark"]) {
+  --g-ink: #f3f1ea;
+  --g-paper: #1b1e2b;
+  --g-sunk: #151723;
+  --g-line: #31344b;
+  --g-muted: #a2a29a;
+  --g-warn-bg: #2d2010;
+  --g-warn-line: #6b4a1b;
+  --g-warn-text: #f1b56d;
+  --g-danger: #ee8176;
+  --g-shadow: 0 18px 42px -14px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :host([data-gistly-theme="auto"]) {
+    --g-ink: #f3f1ea;
+    --g-paper: #1b1e2b;
+    --g-sunk: #151723;
+    --g-line: #31344b;
+    --g-muted: #a2a29a;
+    --g-warn-bg: #2d2010;
+    --g-warn-line: #6b4a1b;
+    --g-warn-text: #f1b56d;
+    --g-danger: #ee8176;
+    --g-shadow: 0 18px 42px -14px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* --- Floating button ------------------------------------------------------- */
+.gistly-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483000;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 10px 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--g-ink);
+  color: var(--g-paper);
+  box-shadow: var(--g-shadow);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+.gistly-fab.gistly-visible {
+  display: inline-flex;
+  animation: gistly-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.gistly-fab:hover { transform: translateY(-2px); }
+.gistly-fab:active { transform: translateY(0); }
+.gistly-fab:focus-visible { outline: 3px solid var(--g-highlight); outline-offset: 2px; }
+
+/* The mini logo: a page with a highlighted line. Drawn in CSS so it is
+   always crisp and needs no image file. */
+.gistly-mark {
+  position: relative;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--g-paper);
+}
+.gistly-mark::before,
+.gistly-mark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--g-ink);
+}
+.gistly-mark::before { top: 7px; right: 5px; }
+.gistly-mark::after {
+  top: 13px;
+  right: 9px;
+  box-shadow: 0 0 0 2.5px var(--g-highlight);
+}
+.gistly-mark--on-paper { background: var(--g-ink); }
+.gistly-mark--on-paper::before { background: var(--g-paper); }
+.gistly-mark--on-paper::after { background: var(--g-ink); }
+
+@keyframes gistly-pop {
+  from { transform: scale(0.9) translateY(6px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* --- Card ------------------------------------------------------------------- */
+.gistly-card {
+  position: fixed;
+  right: 20px;
+  bottom: 76px;
+  z-index: 2147483001;
+  width: min(380px, calc(100vw - 40px));
+  max-height: min(580px, calc(100vh - 110px));
+  overflow-y: auto;
+  border-radius: 16px;
+  background: var(--g-paper);
+  color: var(--g-ink);
+  box-shadow: var(--g-shadow);
+  animation: gistly-pop 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.gistly-card-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 14px 13px 16px;
+  border-bottom: 1px solid var(--g-line);
+  border-radius: 16px 16px 0 0;
+  background: var(--g-paper);
+}
+.gistly-card-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.gistly-card-titles { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.gistly-card-title { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
+.gistly-card-badge { font-size: 11px; color: var(--g-muted); line-height: 1.1; }
+
+.gistly-close {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--g-muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.gistly-close:hover { background: var(--g-sunk); color: var(--g-ink); }
+.gistly-close:focus-visible { outline: 2px solid var(--g-ink); }
+
+.gistly-card-body { padding: 15px 16px 16px; font-size: 13.5px; line-height: 1.55; }
+
+.gistly-loading { color: var(--g-muted); font-style: italic; }
+.gistly-error { color: var(--g-danger); }
+
+.gistly-section-title {
+  margin: 16px 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--g-muted);
+}
+.gistly-section-title:first-child { margin-top: 0; }
+
+.gistly-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.gistly-summary-list li { position: relative; padding-left: 17px; }
+.gistly-summary-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--g-highlight);
+}
+
+.gistly-callout {
+  margin-bottom: 14px;
+  padding: 9px 11px;
+  border: 1px solid var(--g-warn-line);
+  border-radius: 10px;
+  background: var(--g-warn-bg);
+  color: var(--g-warn-text);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.gistly-callout--flags { margin: 0; }
+
+.gistly-actions { margin-top: 16px; }
+.gistly-read-full {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--g-ink);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--g-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.gistly-read-full:hover { background: var(--g-ink); color: var(--g-paper); }
+.gistly-read-full:focus-visible { outline: 3px solid var(--g-highlight); outline-offset: 2px; }
+
+.gistly-disclaimer {
+  margin-top: 14px;
+  padding-top: 11px;
+  border-top: 1px solid var(--g-line);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--g-muted);
+}
+
+@media (max-width: 420px) {
+  .gistly-fab-label { display: none; }
+  .gistly-fab { right: 12px; bottom: 12px; padding: 10px; }
+  .gistly-card { right: 12px; left: 12px; width: auto; bottom: 72px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gistly-fab, .gistly-card { animation: none; transition: none; }
+}

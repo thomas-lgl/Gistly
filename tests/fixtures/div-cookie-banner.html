@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html><head><title>Shop</title></head>
+<body>
+  <div id="content"><div><span>Welcome to the shop</span></div></div>
+  <!--
+    Realistic consent-banner markup: the actual text lives in <div>/<span>
+    wrappers with an inline link, alongside one stray <p>. A tag-whitelist
+    extractor keeps only the <p> and silently loses everything that matters.
+  -->
+  <div class="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;">
+    <p class="cb-title">Your privacy matters</p>
+    <div class="cb-text">
+      <span>We and our partners use cookies and similar technologies to store and access information on your device, such as your IP address and unique device identifiers.</span>
+      <span>We use this data to personalize ads and content, and to measure traffic and improve our service.</span>
+      <a href="/cookie-policy">Cookie Policy</a>
+    </div>
+    <div class="cb-actions"><button>Accept all</button><button>Manage preferences</button></div>
+  </div>
+</body></html>

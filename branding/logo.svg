@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" role="img" aria-labelledby="t">
+  <title id="t">Gistly</title>
+  <!-- A page being boiled down to its gist: three lines that get shorter,
+       with a highlighter pass across the one that matters. -->
+  <rect x="2.56" y="2.56" width="58.88" height="58.88" rx="14.4" fill="#14213d"/>
+  <path d="M15.6 11.5H38.7L46.7 19.5V49a2.2 2.2 0 0 1-2.2 2.2H15.6a2.2 2.2 0 0 1-2.2-2.2V13.7a2.2 2.2 0 0 1 2.2-2.2Z" fill="#ffffff"/>
+  <path d="M38.7 11.5L46.7 19.5H38.7Z" fill="#d6d8e2"/>
+  <rect x="17.8" y="25.6" width="19.2" height="3.6" rx="1.8" fill="#ffd60a"/>
+  <rect x="18.75" y="20.25" width="20.6" height="2.8" rx="1.4" fill="#14213d"/>
+  <rect x="18.75" y="26" width="16.6" height="2.8" rx="1.4" fill="#14213d"/>
+  <rect x="18.75" y="31.75" width="11.3" height="2.8" rx="1.4" fill="#14213d"/>
+</svg>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gistly</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="top">
+    <svg class="logo" viewBox="0 0 64 64" width="36" height="36" aria-hidden="true">
+      <rect x="2.56" y="2.56" width="58.88" height="58.88" rx="14.4" fill="#14213d"/>
+      <path d="M15.6 11.5H38.7L46.7 19.5V49a2.2 2.2 0 0 1-2.2 2.2H15.6a2.2 2.2 0 0 1-2.2-2.2V13.7a2.2 2.2 0 0 1 2.2-2.2Z" fill="#fff"/>
+      <path d="M38.7 11.5L46.7 19.5H38.7Z" fill="#d6d8e2"/>
+      <rect x="17.8" y="25.6" width="19.2" height="3.6" rx="1.8" fill="#ffd60a"/>
+      <rect x="18.75" y="20.25" width="20.6" height="2.8" rx="1.4" fill="#14213d"/>
+      <rect x="18.75" y="26" width="16.6" height="2.8" rx="1.4" fill="#14213d"/>
+      <rect x="18.75" y="31.75" width="11.3" height="2.8" rx="1.4" fill="#14213d"/>
+    </svg>
+    <div class="brand">
+      <div class="name">Gistly</div>
+      <div class="tag">Terms and privacy, in plain words</div>
+    </div>
+  </header>
+
+  <main id="mainView" class="view">
+    <section class="status" aria-live="polite">
+      <span class="dot" id="statusDot"></span>
+      <div>
+        <div class="status-title" id="statusTitle">Looking at this page…</div>
+        <div class="status-detail" id="statusDetail"></div>
+      </div>
+    </section>
+
+    <button id="primaryBtn" class="btn btn-primary" type="button" hidden></button>
+
+    <section class="settings" aria-label="Quick settings">
+      <div class="row">
+        <label class="row-text" for="autoDetect">
+          <span class="row-title">Detect automatically</span>
+          <span class="row-sub">Look for agreements as pages load</span>
+        </label>
+        <span class="switch"><input type="checkbox" id="autoDetect" /><span class="track"></span></span>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <label class="row-title" for="aiEnabled">AI summaries</label>
+          <span class="row-sub" id="aiSub"></span>
+        </div>
+        <button class="link-btn" id="aiSetup" type="button" hidden>Set up</button>
+        <span class="switch" id="aiSwitch"><input type="checkbox" id="aiEnabled" /><span class="track"></span></span>
+      </div>
+    </section>
+  </main>
+
+  <section id="resultView" class="view" hidden>
+    <div class="result-bar">
+      <button id="backBtn" class="btn btn-quiet" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>
+        Back
+      </button>
+    </div>
+    <div id="resultBody" class="result-body"></div>
+    <div class="result-actions">
+      <button id="showOnPageBtn" class="btn btn-outline" type="button">Show full text on page</button>
+    </div>
+  </section>
+
+  <footer id="mainFooter">
+    <button id="openOptions" class="link-btn" type="button">All settings</button>
+    <span class="footnote">Gistly never clicks Accept or Reject for you.</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

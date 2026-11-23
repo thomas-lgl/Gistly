@@ -1,0 +1,11 @@
+{
+  "name": "gistly-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node run-tests.mjs && node ui-tests.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><title>SPA Example</title></head>
+<body>
+  <div id="app">
+    <h1>Loading your dashboard…</h1>
+  </div>
+  <script>
+    // Simulates a single-page app that renders a consent modal a couple of
+    // seconds after initial load — exercises the debounced MutationObserver
+    // path in detector.js rather than the initial scanPage() call.
+    setTimeout(function () {
+      var modal = document.createElement('div');
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.style.position = 'fixed';
+      modal.style.zIndex = '10000';
+      modal.innerHTML =
+        '<h2>Before you continue</h2>' +
+        '<p>By using this app you agree to our Terms of Service and Privacy Policy. ' +
+        'We collect usage analytics to improve the product and may share aggregated, ' +
+        'anonymized data with partners. This agreement may be updated periodically.</p>' +
+        '<button>I Agree</button>';
+      document.body.appendChild(modal);
+    }, 2500);
+  </script>
+</body></html>
